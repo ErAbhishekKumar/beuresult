@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>BEU Result Downloader</title>
+</head>
+<body>
+    <h1>BEU Result Downloader</h1>
+    <form method="POST" action="https://tumhara-backend.onrender.com/fetch_result">
+        <input type="text" name="regNo" placeholder="Enter 11-digit Reg. No(s)" required><br><br>
+
+        <!-- Backend se aane wale hidden fields -->
+        <input type="hidden" name="token" id="token">
+        <input type="hidden" name="timestamp" id="timestamp">
+        <input type="hidden" name="hash" id="hash">
+
+        <label id="captchaQ"></label>
+        <input type="text" name="captcha" required><br><br>
+
+        <button type="submit">Submit</button>
+    </form>
+
+    <script>
+    // Backend se token, timestamp, hash, captcha load karna
+    fetch("https://tumhara-backend.onrender.com/init")
+        .then(res => res.json())
+        .then(data => {
+            document.getElementById("token").value = data.token;
+            document.getElementById("timestamp").value = data.timestamp;
+            document.getElementById("hash").value = data.hash;
+            document.getElementById("captchaQ").innerText = data.captcha_q;
+        });
+    </script>
+</body>
+</html>
