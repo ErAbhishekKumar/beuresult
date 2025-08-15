@@ -6,7 +6,7 @@
 </head>
 <body>
     <h1>BEU Result Downloader</h1>
-    <form method="POST" action="https://tumhara-backend.onrender.com/fetch_result">
+    <form method="POST" action="https://beu-result-backend.onrender.com/fetch_result">
         <input type="text" name="regNo" placeholder="Enter 11-digit Reg. No(s)" required><br><br>
 
         <!-- Backend se aane wale hidden fields -->
@@ -22,7 +22,7 @@
 
     <script>
     // Backend se token, timestamp, hash, captcha load karna
-    fetch("https://tumhara-backend.onrender.com/init")
+    fetch("https://beu-result-backend.onrender.com/init")
         .then(res => res.json())
         .then(data => {
             document.getElementById("token").value = data.token;
