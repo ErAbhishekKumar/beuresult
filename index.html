@@ -173,17 +173,21 @@
       <input type="text" name="captcha" required>
 
       <!-- Semester buttons -->
-      <div id="semButtons" style="margin-top:10px; display:none;">
-        <p><b>Select Semester:</b></p>
-        <button type="button" onclick="submitWithSem('I')">1st Sem</button>
-        <button type="button" onclick="submitWithSem('II')">2nd Sem</button>
-        <button type="button" onclick="submitWithSem('III')">3rd Sem</button>
-        <button type="button" onclick="submitWithSem('IV')">4th Sem</button>
-        <button type="button" onclick="submitWithSem('V')">5th Sem</button>
-        <button type="button" onclick="submitWithSem('VI')">6th Sem</button>
-        <button type="button" onclick="submitWithSem('VII')">7th Sem</button>
-        <button type="button" onclick="submitWithSem('VIII')">8th Sem</button>
-      </div>
+      <label for="semester">Select Semester:</label>
+<select id="semester" name="semester" required>
+  <option value="">--Select Semester--</option>
+  <option value="I">1st Sem</option>
+  <option value="II">2nd Sem</option>
+  <option value="III">3rd Sem</option>
+  <option value="IV">4th Sem</option>
+  <option value="V">5th Sem</option>
+  <option value="VI">6th Sem</option>
+  <option value="VII">7th Sem</option>
+  <option value="VIII">8th Sem</option>
+</select>
+
+<button type="submit">Submit</button>
+
 
     <script>
 
@@ -228,7 +232,7 @@
 </script>
 
 
-      <button type="submit">Submit</button>
+
 
       <div class="hint">
         Example: You can use single reg. no. or with comma(,) or with dash(-)<br><br>
