@@ -139,13 +139,14 @@
   <button class="donate-btn" onclick="handleDonate()">₹ Donate</button>
 
   <form method="POST" action="https://beu-result-backend.onrender.com/fetch_result">
-      <input type="text" name="regNo" placeholder="Enter 11-digit Reg. No(s)" required>
-
-       <!-- Session dropdown -->
+     <!-- Session dropdown -->
       <label for="session">Select Session:</label>
       <select id="session" name="session" required>
         <option value="">--Select Session--</option>
       </select>
+      <input type="text" name="regNo" placeholder="Enter 11-digit Reg. No(s)" required>
+
+      
 
       <!-- Backend se aane wale hidden fields -->
       <input type="hidden" name="token" id="token">
@@ -168,26 +169,7 @@
         <button type="button" onclick="submitWithSem('VIII')">8th Sem</button>
       </div>
 
-      <button type="submit">Submit</button>
-
-      <div class="hint">
-        Example: You can use single reg. no. or with comma(,) or with dash(-)<br><br>
-          like: 👉🏻 You can Use 24101107001<br>
-          or, You can use 24101107002-24101107034<br>
-          or, You can use both 24101157021,24101107002-24101107034,24101107001<br><br><br>
-        <b>Other Website</b> for making result table👉🏻 <a href="https://erabhishekkumar.github.io/beuresult.html" target="_blank">Click Here</a></p>
-      </div>
-  </form>
-  
-
-  <footer class="footer">
-        <p>Copyright © All rights reserved. Design and Developed by ErAbhishekKumar</p>
-        <p><small>This website is made for the purpose of information and All the data shown is available in public.</small></p>
-        <p>Contact: <a href="https://t.me/erabhishekkumar" target="_blank">Telegram</a></p>
-    </footer>
-
-  <script src="main.js"></script>
-  <script>
+    <script>
   const baseUrls = generateBaseUrls(); // tumhara existing function
 
   // ✅ Session dropdown auto-fill (2019 se current year tak)
@@ -230,6 +212,27 @@
   }
 </script>
 
+
+      <button type="submit">Submit</button>
+
+      <div class="hint">
+        Example: You can use single reg. no. or with comma(,) or with dash(-)<br><br>
+          like: 👉🏻 You can Use 24101107001<br>
+          or, You can use 24101107002-24101107034<br>
+          or, You can use both 24101157021,24101107002-24101107034,24101107001<br><br><br>
+        <b>Other Website</b> for making result table👉🏻 <a href="https://erabhishekkumar.github.io/beuresult.html" target="_blank">Click Here</a></p>
+      </div>
+  </form>
+  
+
+  <footer class="footer">
+        <p>Copyright © All rights reserved. Design and Developed by ErAbhishekKumar</p>
+        <p><small>This website is made for the purpose of information and All the data shown is available in public.</small></p>
+        <p>Contact: <a href="https://t.me/erabhishekkumar" target="_blank">Telegram</a></p>
+    </footer>
+
+  <script src="main.js"></script>
+  
   <script>
     const upiID = "abhisheshinkar365@oksbi";
     const name = "Abhishek Kumar";
