@@ -188,6 +188,31 @@
 
 <button type="submit">Submit</button>
 
+<script>
+  // ✅ Page Load hone par LocalStorage se values load karo
+  window.addEventListener("DOMContentLoaded", () => {
+    const savedSession = localStorage.getItem("session");
+    const savedRegNo = localStorage.getItem("regNo");
+    const savedSemester = localStorage.getItem("semester");
+
+    if (savedSession) document.getElementById("session").value = savedSession;
+    if (savedRegNo) document.querySelector('input[name="regNo"]').value = savedRegNo;
+    if (savedSemester) document.getElementById("semester").value = savedSemester;
+  });
+
+  // ✅ Jab bhi koi field change ho, LocalStorage me save karo
+  document.addEventListener("input", (e) => {
+    if (e.target.id === "session") {
+      localStorage.setItem("session", e.target.value);
+    }
+    if (e.target.name === "regNo") {
+      localStorage.setItem("regNo", e.target.value);
+    }
+    if (e.target.id === "semester") {
+      localStorage.setItem("semester", e.target.value);
+    }
+  });
+</script>
 
     <script>
 
@@ -230,6 +255,7 @@
     form.submit();
   }
 </script>
+    
 
 
 
