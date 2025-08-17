@@ -105,16 +105,23 @@
       color: #555;
       margin-top: 10px;
     }
+    
   </style>
 </head>
 <body>
-  <h1>BEU 1st Sem 2024 Result Downloader</h1>
+  <h1>BEU All Sem Result Downloader</h1>
 <h4>If This Page Helps You, Consider Donating,Please! ❤️</h4>
 
   <button class="donate-btn" onclick="handleDonate()">₹ Donate</button>
 
   <form method="POST" action="https://beu-result-backend.onrender.com/fetch_result">
       <input type="text" name="regNo" placeholder="Enter 11-digit Reg. No(s)" required>
+
+       <!-- Session dropdown -->
+      <label for="session">Select Session:</label>
+      <select id="session" name="session" required>
+        <option value="">--Select Session--</option>
+      </select>
 
       <!-- Backend se aane wale hidden fields -->
       <input type="hidden" name="token" id="token">
@@ -123,6 +130,19 @@
 
       <label id="captchaQ"></label>
       <input type="text" name="captcha" required>
+
+      <!-- Semester buttons -->
+      <div id="semButtons" style="margin-top:10px; display:none;">
+        <p><b>Select Semester:</b></p>
+        <button type="button" onclick="submitWithSem('I')">1st Sem</button>
+        <button type="button" onclick="submitWithSem('II')">2nd Sem</button>
+        <button type="button" onclick="submitWithSem('III')">3rd Sem</button>
+        <button type="button" onclick="submitWithSem('IV')">4th Sem</button>
+        <button type="button" onclick="submitWithSem('V')">5th Sem</button>
+        <button type="button" onclick="submitWithSem('VI')">6th Sem</button>
+        <button type="button" onclick="submitWithSem('VII')">7th Sem</button>
+        <button type="button" onclick="submitWithSem('VIII')">8th Sem</button>
+      </div>
 
       <button type="submit">Submit</button>
 
@@ -143,6 +163,48 @@
     </footer>
 
   <script src="main.js"></script>
+  <script>
+  const baseUrls = generateBaseUrls(); // tumhara existing function
+
+  // ✅ Session dropdown auto-fill (2019 se current year tak)
+  const startYear = 2019;
+  const currentYear = new Date().getFullYear();
+  const sessionSelect = document.getElementById("session");
+
+  for (let year = startYear; year <= currentYear; year++) {
+    let opt = document.createElement("option");
+    opt.value = year;
+    opt.textContent = year;
+    sessionSelect.appendChild(opt);
+  }
+
+  // ✅ Jab session select hoga to semester buttons dikhe
+  document.getElementById("session").addEventListener("change", function() {
+    if (this.value) {
+      document.getElementById("semButtons").style.display = "block";
+    } else {
+      document.getElementById("semButtons").style.display = "none";
+    }
+  });
+
+  function submitWithSem(sem) {
+    const session = document.getElementById("session").value;
+    if (!session) {
+      alert("Please select a session first!");
+      return;
+    }
+    // Backend ko hidden semester field bhejna
+    const form = document.getElementById("resultForm");
+
+    let hidden = document.createElement("input");
+    hidden.type = "hidden";
+    hidden.name = "semester";
+    hidden.value = sem;
+    form.appendChild(hidden);
+
+    form.submit();
+  }
+</script>
 
   <script>
     const upiID = "abhisheshinkar365@oksbi";
