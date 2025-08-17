@@ -105,6 +105,30 @@
       color: #555;
       margin-top: 10px;
     }
+
+    /* Semester Buttons - Grid Layout */
+#semButtons {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* 4 buttons per row */
+  gap: 10px;
+  margin-top: 15px;
+}
+
+#semButtons button {
+  background-color: #2196F3;
+  color: white;
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+#semButtons button:hover {
+  background-color: #1976D2;
+  transform: scale(1.05);
+}
+
     
   </style>
 </head>
