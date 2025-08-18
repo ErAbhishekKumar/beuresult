@@ -345,6 +345,19 @@
   </div>
 </div>
 
+<!-- Refresh Button (default hidden) -->
+<div id="refreshContainer" style="text-align:center; margin-top:15px; display:none;">
+  <button id="refreshBtn" style="
+    background: #2196F3;
+    color: white;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+  ">🔄 Refresh</button>
+</div>
+
 <script>
 function showPopup(msg) {
   document.getElementById("popupMsg").innerText = msg;
@@ -353,8 +366,15 @@ function showPopup(msg) {
 
 function closePopup() {
   document.getElementById("errorPopup").style.display = "none";
-  window.location.href = "https://erabhishekkumar.github.io/beuresult/";  // ✅ OK दबाने पर page refresh होगा
+  // ✅ जब OK दबाया जाए तो Refresh button दिखे
+  document.getElementById("refreshContainer").style.display = "block";
 }
+
+// ✅ Refresh button click पर reload और hide
+document.getElementById("refreshBtn").addEventListener("click", function() {
+  this.style.display = "none";
+  location.reload();
+});
 </script>
 
 <script>
@@ -378,7 +398,7 @@ document.getElementById("resultForm").addEventListener("submit", async function(
       const paragraph = doc.querySelector("p")?.innerText || "";
       const finalMsg = [title, heading, paragraph].filter(Boolean).join("\n");
 
-      showPopup(finalMsg); // ✅ अब popup screen पर दिखेगा
+      showPopup(finalMsg);
       return;
     }
 
@@ -391,6 +411,7 @@ document.getElementById("resultForm").addEventListener("submit", async function(
   }
 });
 </script>
+
 
 
 </body>
