@@ -311,14 +311,55 @@
       }
     }
   </script>
+  <!-- ✅ Popup Modal -->
+<div id="errorPopup" style="
+  display: none;
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+">
+  <div style="
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    width: 300px;
+    max-width: 90%;
+    text-align: center;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+  ">
+    <h2 style="color: red; font-size: 18px;" id="popupTitle">Error</h2>
+    <p id="popupMsg" style="margin: 15px 0; font-size: 15px;"></p>
+    <button onclick="closePopup()" style="
+      background: #4CAF50;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 14px;
+    ">OK</button>
+  </div>
+</div>
+
 <script>
-function showAlert(msg) {
-  alert(msg); // simple notification
+function showPopup(msg) {
+  document.getElementById("popupMsg").innerText = msg;
+  document.getElementById("errorPopup").style.display = "flex";
+}
+
+function closePopup() {
+  document.getElementById("errorPopup").style.display = "none";
+  location.reload(); // ✅ OK दबाने पर page refresh होगा
 }
 </script>
+
 <script>
 document.getElementById("resultForm").addEventListener("submit", async function(e) {
-  e.preventDefault(); // backend URL पर redirect रोकना
+  e.preventDefault();
 
   const formData = new FormData(this);
 
@@ -329,20 +370,28 @@ document.getElementById("resultForm").addEventListener("submit", async function(
     });
 
     if (!res.ok) {
-      const errText = await res.text();
-      showAlert("❌ Error: " + errText);
+      const errHtml = await res.text();
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(errHtml, "text/html");
+      const title = doc.querySelector("title")?.innerText || "";
+      const heading = doc.querySelector("h1")?.innerText || "";
+      const paragraph = doc.querySelector("p")?.innerText || "";
+      const finalMsg = [title, heading, paragraph].filter(Boolean).join("\n");
+
+      showPopup(finalMsg); // ✅ अब popup screen पर दिखेगा
       return;
     }
 
-    // Success case: result file open karo
+    // ✅ Success case
     const blob = await res.blob();
     const url = URL.createObjectURL(blob);
     window.open(url, "_blank");
   } catch (err) {
-    showAlert("⚠️ Network error: " + err.message);
+    showPopup("⚠️ Network error: " + err.message);
   }
 });
 </script>
+
 
 </body>
 </html>
