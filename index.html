@@ -331,7 +331,7 @@
     text-align: center;
     box-shadow: 0 8px 20px rgba(0,0,0,0.2);
   ">
-    <h2 style="color: red; font-size: 18px;" id="popupTitle">Error</h2>
+    <h2 style="color: red; font-size: 18px;" id="popupTitle"></h2>
     <p id="popupMsg" style="margin: 15px 0; font-size: 15px;"></p>
     <button onclick="closePopup()" style="
       background: #4CAF50;
@@ -346,15 +346,17 @@
 </div>
 
 <script>
-function showPopup(msg) {
+function showPopup(msg, title = "Error") {
+  document.getElementById("popupTitle").innerText = title;
   document.getElementById("popupMsg").innerText = msg;
   document.getElementById("errorPopup").style.display = "flex";
 }
 
 function closePopup() {
-  // ✅ अब OK दबाने पर सिर्फ popup बंद होगा
   document.getElementById("errorPopup").style.display = "none";
 }
+</script>
+
 
 document.getElementById("resultForm").addEventListener("submit", async function(e) {
   e.preventDefault();
