@@ -311,6 +311,38 @@
       }
     }
   </script>
-  
+<script>
+function showAlert(msg) {
+  alert(msg); // simple notification
+}
+</script>
+<script>
+document.getElementById("resultForm").addEventListener("submit", async function(e) {
+  e.preventDefault(); // backend URL पर redirect रोकना
+
+  const formData = new FormData(this);
+
+  try {
+    const res = await fetch("https://beu-result-backend.onrender.com/fetch_result", {
+      method: "POST",
+      body: formData
+    });
+
+    if (!res.ok) {
+      const errText = await res.text();
+      showAlert("❌ Error: " + errText);
+      return;
+    }
+
+    // Success case: result file open karo
+    const blob = await res.blob();
+    const url = URL.createObjectURL(blob);
+    window.open(url, "_blank");
+  } catch (err) {
+    showAlert("⚠️ Network error: " + err.message);
+  }
+});
+</script>
+
 </body>
 </html>
