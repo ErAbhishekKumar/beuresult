@@ -311,7 +311,7 @@
       }
     }
   </script>
-<!-- ✅ Popup Modal (Default hidden) -->
+<!-- ✅ Popup Modal -->
 <div id="errorPopup" style="
   display: none;
   position: fixed;
@@ -347,19 +347,15 @@
 
 <script>
 function showPopup(msg) {
-  // सिर्फ error पर ही popup दिखे
   document.getElementById("popupMsg").innerText = msg;
   document.getElementById("errorPopup").style.display = "flex";
 }
 
 function closePopup() {
-  // OK दबाने पर popup बंद
+  // ✅ अब OK दबाने पर सिर्फ popup बंद होगा
   document.getElementById("errorPopup").style.display = "none";
 }
-</script>
 
-
-<script>
 document.getElementById("resultForm").addEventListener("submit", async function(e) {
   e.preventDefault();
 
@@ -372,10 +368,6 @@ document.getElementById("resultForm").addEventListener("submit", async function(
     });
 
     if (!res.ok) {
-      // 👉 अगर form खाली है तो error popup मत दिखाओ
-      if (!formData.get("roll") && !formData.get("regno")) {
-        return;
-      }
       const errHtml = await res.text();
       const parser = new DOMParser();
       const doc = parser.parseFromString(errHtml, "text/html");
@@ -388,17 +380,30 @@ document.getElementById("resultForm").addEventListener("submit", async function(
       return;
     }
 
-    // ✅ Success case
+    // ✅ Success case: automatic download with backend filename
+    let filename = "result.pdf";
+    const disposition = res.headers.get("Content-Disposition");
+    if (disposition && disposition.includes("filename=")) {
+      filename = disposition.split("filename=")[1].replace(/['"]/g, "");
+    }
+
     const blob = await res.blob();
     const url = URL.createObjectURL(blob);
-    window.open(url, "_blank");
+
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = filename; // backend से मिला हुआ नाम (या default)
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+
+    URL.revokeObjectURL(url);
+
   } catch (err) {
     showPopup("⚠️ Network error: " + err.message);
   }
 });
 </script>
-
-
 
 </body>
 </html>
