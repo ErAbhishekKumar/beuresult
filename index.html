@@ -154,7 +154,7 @@
 
   <button class="donate-btn" onclick="handleDonate()">₹ Donate</button>
 
-  <form id="resultForm" method="POST" action="https://beu-result-backend.onrender.com/fetch_result">
+  <form method="POST" action="https://beu-result-backend.onrender.com/fetch_result">
      <!-- Session dropdown -->
       <label for="session">Select Session:</label>
       <select id="session" name="session" required>
@@ -312,42 +312,6 @@
     }
   </script>
 
-<script>
-document.getElementById("resultForm").addEventListener("submit", async function(e) {
-  e.preventDefault(); // default stop karo
-
-  const form = this;
-  const formData = new FormData(form);
-
-  try {
-    const res = await fetch(form.action, {
-      method: "POST",
-      body: formData
-    });
-
-    if (!res.ok) {
-      const errHtml = await res.text();
-      const parser = new DOMParser();
-      const doc = parser.parseFromString(errHtml, "text/html");
-      const title = doc.querySelector("title")?.innerText || "";
-      const heading = doc.querySelector("h1")?.innerText || "";
-      const paragraph = doc.querySelector("p")?.innerText || "";
-      const finalMsg = [title, heading, paragraph].filter(Boolean).join("\n");
-      
-      showPopup(finalMsg); // ✅ sirf error show hoga
-      return;
-    }
-
-    // ✅ Agar response ok hai to actual form submit karwa do 
-    // taki browser khud download handle kare
-    form.removeEventListener("submit", arguments.callee); // prevent infinite loop
-    form.submit();
-
-  } catch (err) {
-    showPopup("⚠️ Network error: " + err.message);
-  }
-});
-</script>
 
 </body>
 </html>
