@@ -154,7 +154,7 @@
 
   <button class="donate-btn" onclick="handleDonate()">₹ Donate</button>
 
-  <form id="resultForm">
+  <form id="resultForm" method="POST" action="https://beu-result-backend.onrender.com/fetch_result">
      <!-- Session dropdown -->
       <label for="session">Select Session:</label>
       <select id="session" name="session" required>
@@ -311,64 +311,16 @@
       }
     }
   </script>
-<!-- ✅ Popup Modal -->
-<div id="errorPopup" style="
-  display: none;  /* default hidden */
-  position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(0,0,0,0.6);
-  justify-content: center;
-  align-items: center;
-  z-index: 9999;
-">
-  <div style="
-    background: #fff;
-    padding: 20px;
-    border-radius: 10px;
-    width: 300px;
-    max-width: 90%;
-    text-align: center;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
-    display: none; /* bhi default hidden */
-  " id="popupBox">
-    <h2 style="color: red; font-size: 18px;" id="popupTitle"></h2>
-    <p id="popupMsg" style="margin: 15px 0; font-size: 15px;"></p>
-    <button onclick="closePopup()" style="
-      background: #4CAF50;
-      color: white;
-      padding: 10px 20px;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      font-size: 14px;
-    ">OK</button>
-  </div>
-</div>
 
 <script>
-function showPopup(msg, title = "Error") {
-  document.getElementById("popupTitle").innerText = title;
-  document.getElementById("popupMsg").innerText = msg;
-  document.getElementById("errorPopup").style.display = "flex"; // ✅ overlay show
-  document.getElementById("popupBox").style.display = "block"; // ✅ box show
-}
-
-function closePopup() {
-  document.getElementById("errorPopup").style.display = "none"; // ✅ overlay + box dono hide
-  document.getElementById("popupBox").style.display = "none";
-}
-</script>
-
-<script>
-  // ✅ Form submission with error handling
-
 document.getElementById("resultForm").addEventListener("submit", async function(e) {
-  e.preventDefault();
+  e.preventDefault(); // default stop karo
 
-  const formData = new FormData(this);
+  const form = this;
+  const formData = new FormData(form);
 
   try {
-    const res = await fetch("https://beu-result-backend.onrender.com/fetch_result", {
+    const res = await fetch(form.action, {
       method: "POST",
       body: formData
     });
@@ -381,29 +333,15 @@ document.getElementById("resultForm").addEventListener("submit", async function(
       const heading = doc.querySelector("h1")?.innerText || "";
       const paragraph = doc.querySelector("p")?.innerText || "";
       const finalMsg = [title, heading, paragraph].filter(Boolean).join("\n");
-
-      showPopup(finalMsg);
+      
+      showPopup(finalMsg); // ✅ sirf error show hoga
       return;
     }
 
-    // ✅ Success case: automatic download with backend filename
-    let filename = "result.pdf";
-    const disposition = res.headers.get("Content-Disposition");
-    if (disposition && disposition.includes("filename=")) {
-      filename = disposition.split("filename=")[1].replace(/['"]/g, "");
-    }
-
-    const blob = await res.blob();
-    const url = URL.createObjectURL(blob);
-
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = filename; // backend से मिला हुआ नाम (या default)
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
-
-    URL.revokeObjectURL(url);
+    // ✅ Agar response ok hai to actual form submit karwa do 
+    // taki browser khud download handle kare
+    form.removeEventListener("submit", arguments.callee); // prevent infinite loop
+    form.submit();
 
   } catch (err) {
     showPopup("⚠️ Network error: " + err.message);
