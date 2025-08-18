@@ -313,11 +313,10 @@
   </script>
 <!-- ✅ Popup Modal -->
 <div id="errorPopup" style="
-  display: none;
+  display: none;  /* default hidden */
   position: fixed;
   top: 0; left: 0; right: 0; bottom: 0;
   background: rgba(0,0,0,0.6);
-  display: flex;
   justify-content: center;
   align-items: center;
   z-index: 9999;
@@ -330,7 +329,8 @@
     max-width: 90%;
     text-align: center;
     box-shadow: 0 8px 20px rgba(0,0,0,0.2);
-  ">
+    display: none; /* bhi default hidden */
+  " id="popupBox">
     <h2 style="color: red; font-size: 18px;" id="popupTitle"></h2>
     <p id="popupMsg" style="margin: 15px 0; font-size: 15px;"></p>
     <button onclick="closePopup()" style="
@@ -349,13 +349,16 @@
 function showPopup(msg, title = "Error") {
   document.getElementById("popupTitle").innerText = title;
   document.getElementById("popupMsg").innerText = msg;
-  document.getElementById("errorPopup").style.display = "flex";
+  document.getElementById("errorPopup").style.display = "flex"; // ✅ overlay show
+  document.getElementById("popupBox").style.display = "block"; // ✅ box show
 }
 
 function closePopup() {
-  document.getElementById("errorPopup").style.display = "none";
+  document.getElementById("errorPopup").style.display = "none"; // ✅ overlay + box dono hide
+  document.getElementById("popupBox").style.display = "none";
 }
 </script>
+
 
 
 document.getElementById("resultForm").addEventListener("submit", async function(e) {
