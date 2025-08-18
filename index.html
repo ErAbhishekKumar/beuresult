@@ -189,6 +189,92 @@
 <button type="submit">Submit</button>
 
 <script>
+const form = document.getElementById("resultForm");
+
+form.addEventListener("submit", async (e) => {
+  e.preventDefault(); // page reload roko
+
+  const formData = new FormData(form);
+
+  try {
+    const response = await fetch(form.action, {
+      method: "POST",
+      body: formData
+    });
+
+    if (!response.ok) {
+      // Backend error -> show alert / notification
+      const errorText = await response.text();
+      alert("Error: " + errorText);
+      return;
+    }
+
+    // Agar successful, file download
+    const blob = await response.blob();
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+
+    // Filename backend se set karne ke liye "Content-Disposition" header
+    const cd = response.headers.get("Content-Disposition");
+    let fileName = "result.html";
+    if (cd && cd.includes("filename=")) {
+      fileName = cd.split("filename=")[1].replace(/"/g, "");
+    }
+    a.download = fileName;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    window.URL.revokeObjectURL(url);
+
+  } catch (err) {
+    alert("Network or server error: " + err);
+  }
+});
+</script>
+
+
+  const formData = new FormData(form);
+  
+  try {
+    const response = await fetch(form.action, {
+      method: "POST",
+      body: formData
+    });
+
+    if (!response.ok) {
+      // Backend error -> show alert / notification
+      const errorText = await response.text();
+      alert("Error: " + errorText);
+      return;
+    }
+
+    // Agar successful, file download
+    const blob = await response.blob();
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+
+    // Filename backend se set karne ke liye "Content-Disposition" header
+    const cd = response.headers.get("Content-Disposition");
+    let fileName = "result.html";
+    if (cd && cd.includes("filename=")) {
+      fileName = cd.split("filename=")[1].replace(/"/g, "");
+    }
+    a.download = fileName;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    window.URL.revokeObjectURL(url);
+
+  } catch (err) {
+    alert("Network or server error: " + err);
+  }
+});
+</script>
+
+
+<script>
   // ✅ Page Load hone par LocalStorage se values load karo
   window.addEventListener("DOMContentLoaded", () => {
     const savedSession = localStorage.getItem("session");
@@ -245,6 +331,7 @@
     }
     // Backend ko hidden semester field bhejna
     const form = document.getElementById("resultForm");
+    
 
     let hidden = document.createElement("input");
     hidden.type = "hidden";
