@@ -311,7 +311,7 @@
       }
     }
   </script>
-  <!-- ✅ Popup Modal -->
+<!-- ✅ Popup Modal (Default hidden) -->
 <div id="errorPopup" style="
   display: none;
   position: fixed;
@@ -347,15 +347,17 @@
 
 <script>
 function showPopup(msg) {
+  // सिर्फ error पर ही popup दिखे
   document.getElementById("popupMsg").innerText = msg;
   document.getElementById("errorPopup").style.display = "flex";
 }
 
 function closePopup() {
+  // OK दबाने पर popup बंद
   document.getElementById("errorPopup").style.display = "none";
-  // ✅ अब सिर्फ popup बंद होगा, कोई reload/refresh नहीं होगा
 }
 </script>
+
 
 <script>
 document.getElementById("resultForm").addEventListener("submit", async function(e) {
@@ -370,6 +372,10 @@ document.getElementById("resultForm").addEventListener("submit", async function(
     });
 
     if (!res.ok) {
+      // 👉 अगर form खाली है तो error popup मत दिखाओ
+      if (!formData.get("roll") && !formData.get("regno")) {
+        return;
+      }
       const errHtml = await res.text();
       const parser = new DOMParser();
       const doc = parser.parseFromString(errHtml, "text/html");
