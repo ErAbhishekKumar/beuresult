@@ -228,6 +228,12 @@
     sessionSelect.appendChild(opt);
   }
 
+  // ✅ Extra option for 2024(old)
+let oldOpt = document.createElement("option");
+oldOpt.value = "2024(old)";
+oldOpt.textContent = "2024 (old)";
+sessionSelect.appendChild(oldOpt);
+
   // ✅ Jab session select hoga to semester buttons dikhe
   document.getElementById("session").addEventListener("change", function() {
     if (this.value) {
