@@ -1,5 +1,5 @@
 // main.js
-fetch("https://beu-result-backend.onrender.com/init")
+fetch("https://result-qd00.onrender.com/init")
     .then(res => res.json())
     .then(data => {
         document.getElementById("token").value = data.token;
