@@ -1,5 +1,5 @@
 // main.js
-fetch("https://result-qd00.onrender.com/init")
+fetch("https://resultserver.onrender.com/init")
     .then(res => res.json())
     .then(data => {
         document.getElementById("token").value = data.token;
